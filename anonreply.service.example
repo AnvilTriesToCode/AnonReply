@@ -1,0 +1,35 @@
+# ==============================================================================
+# AnonReply — systemd Service Unit File (Native Linux Service)
+# ==============================================================================
+# Copy this file to: /etc/systemd/system/anonreply.service
+# Enable at boot:    sudo systemctl enable anonreply
+# Start service:     sudo systemctl start anonreply
+# View status:       sudo systemctl status anonreply
+# View live logs:    journalctl -u anonreply -f
+# ==============================================================================
+
+[Unit]
+Description=AnonReply Anonymous Support Application
+After=network.target mongod.service
+Wants=mongod.service
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/anonreply
+EnvironmentFile=/var/www/anonreply/.env.production
+ExecStart=/usr/bin/npm start
+Restart=always
+RestartSec=5
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=anonreply
+
+# Security hardening
+ProtectSystem=full
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

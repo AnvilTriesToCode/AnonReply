@@ -1,0 +1,52 @@
+services:
+  # ============================================================================
+  # AnonReply Next.js Application Container
+  # ============================================================================
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: anonreply_app
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - MONGODB_URI=mongodb://mongodb:27017/anonreply
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET:-please-change-this-secret-key-32-chars-minimum}
+      - NEXTAUTH_URL=${NEXTAUTH_URL:-http://localhost:3000}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-ChangeMe123!}
+      - ADMIN_EMAIL=${ADMIN_EMAIL:-admin@example.com}
+      - NOTIFICATION_ROUTING_EMAIL=${NOTIFICATION_ROUTING_EMAIL:-notifications@example.com}
+      - RESEND_API_KEY=${RESEND_API_KEY:-}
+      - EMAIL_FROM=${EMAIL_FROM:-noreply@yourdomain.com}
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    networks:
+      - anonreply_network
+
+  # ============================================================================
+  # MongoDB Database Container (Includes Native 72-Hour TTL Auto-Deletion)
+  # ============================================================================
+  mongodb:
+    image: mongo:7.0
+    container_name: anonreply_db
+    restart: always
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - anonreply_network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  anonreply_network:
+    driver: bridge
+
+volumes:
+  mongo_data:
+    driver: local
