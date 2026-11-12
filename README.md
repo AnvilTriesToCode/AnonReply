@@ -11,7 +11,7 @@ Deploy the entire production stack (Next.js app + MongoDB container) in 2 minute
 
 ```bash
 # 1. Clone this repository
-git clone https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git /var/www/anonreply
+git clone https://github.com/AnvilTriesToCode/AnonReply.git /var/www/anonreply
 cd /var/www/anonreply
 
 # 2. Configure your domain and secrets

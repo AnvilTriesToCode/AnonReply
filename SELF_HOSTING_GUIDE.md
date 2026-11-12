@@ -50,7 +50,7 @@ sudo systemctl enable --now docker
 
 ### 2. Clone or Copy This Repository
 ```bash
-git clone https://github.com/YOUR_USERNAME/anonreply-selfhosted.git /var/www/anonreply
+git clone https://github.com/AnvilTriesToCode/AnonReply.git /var/www/anonreply
 cd /var/www/anonreply
 ```
 
@@ -107,7 +107,7 @@ sudo systemctl enable --now mongod
 
 ### 2. Clone & Build the Application
 ```bash
-git clone https://github.com/YOUR_USERNAME/anonreply-selfhosted.git /var/www/anonreply
+git clone https://github.com/AnvilTriesToCode/AnonReply.git /var/www/anonreply
 cd /var/www/anonreply
 
 # Install dependencies and build
